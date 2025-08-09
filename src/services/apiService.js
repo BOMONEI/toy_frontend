@@ -10,6 +10,40 @@ const api = axios.create({
   },
 });
 
+// JWT 토큰을 localStorage에서 가져오는 함수
+const getToken = () => {
+  return localStorage.getItem("token");
+};
+
+// 요청 인터셉터 - 모든 요청에 JWT 토큰 추가
+api.interceptors.request.use(
+  (config) => {
+    const token = getToken();
+    if (token && !config.url.startsWith("/auth")) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// 응답 인터셉터 - 401 에러 시 토큰 제거 및 로그인 페이지로 이동
+api.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      window.location.href = "/login";
+    }
+    return Promise.reject(error);
+  }
+);
+
 // API 서비스
 export const apiService = {
   // 회원가입
