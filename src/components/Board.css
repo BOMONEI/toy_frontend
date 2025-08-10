@@ -632,3 +632,10 @@
 .reply-cancel-btn:hover {
   background-color: #5a6268;
 }
+
+/* 댓글 수 스타일 */
+.comment-count {
+  color: #007bff;
+  font-weight: bold;
+  font-size: 0.9em;
+}

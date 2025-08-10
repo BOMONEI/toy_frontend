@@ -104,7 +104,12 @@ const BoardList = () => {
                   onClick={() => navigate(`/board/post/${post.postId}`)}
                 >
                   <div className="col-id">{post.postId}</div>
-                  <div className="col-title">{post.postTitle}</div>
+                  <div className="col-title">
+                    {post.postTitle}
+                    {post.commentCount > 0 && (
+                      <span className="comment-count"> ({post.commentCount})</span>
+                    )}
+                  </div>
                   <div className="col-author">{post.memberName}</div>
                   <div className="col-date">
                     {formatDate(post.postCreatedAt)}
